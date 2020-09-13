@@ -7,6 +7,7 @@ import "firebase/auth";
 import firebaseConfig from "./firebase.config";
 import { useContext } from 'react';
 import { userContext } from '../../App';
+import { useHistory, useLocation } from 'react-router-dom';
 
 firebase.initializeApp(firebaseConfig);
 
@@ -22,6 +23,10 @@ function LogIn() {
 
   });
   const [logInUser, setLogInUser] = useContext(userContext);
+  const history = useHistory();
+  const location = useLocation();
+
+  const { from } = location.state || { from: { pathname: "/" } };
 
   
   const provider = new firebase.auth.GoogleAuthProvider();
@@ -130,6 +135,7 @@ if(newUser && user.email && user.pass){
     newUserInfo.success=true;
     setUser(newUserInfo)
     setLogInUser(newUserInfo)
+    history.replace(from);
     console.log("sign in user info", res.user)
     
   })

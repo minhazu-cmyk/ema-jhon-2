@@ -6,7 +6,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-   Link,
+  
 } from "react-router-dom";
 import Order from './component/order/Order';
 import Manage from './component/manage/Manage';
@@ -16,16 +16,17 @@ import Shipment from './component/Shipment/Shipment';
 import LogIn from './component/LogIn/LogIn';
 import { createContext } from 'react';
 import { useState } from 'react';
+import PrivateRoute from './component/PrivateRoute/PrivateRoute';
 export const userContext = createContext();
 
 function App() {
   const [logInUser, setLogInUser] = useState({});
   return (
-    <userContext.provider value ={[logInUser, setLogInUser]} >
-      {/* <h3> email: {logInUser.email} </h3> */}
-   <Header></Header>
-   <Router>
+    <userContext.Provider value ={[logInUser, setLogInUser]} >
+      <h3> email: {logInUser.email} </h3>
    
+   <Router>
+   <Header></Header>
      <Switch>
        <Route path="/shop">
          <Shop></Shop>
@@ -33,12 +34,12 @@ function App() {
  <Route path="/order">
  <Order></Order>
  </Route>
- <Route path="/manage">
+ <PrivateRoute path="/manage">
 <Manage></Manage>
- </Route>
- <Route path="/shipment">
+ </PrivateRoute>
+ <PrivateRoute path="/shipment">
 <Shipment></Shipment>
- </Route>
+ </PrivateRoute>
  <Route path="/login">
 <LogIn></LogIn>
  </Route>
@@ -54,7 +55,7 @@ function App() {
 
      </Switch>
    </Router>
-   </userContext.provider>
+   </userContext.Provider>
   );
 }
 
